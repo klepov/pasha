@@ -29,8 +29,9 @@ def create_semester(count):
     return prepair_semester
 
 
-def create_schedule(day_on_semestr):
+def create_schedule(id_group,day_on_semestr):
     """
+    :param id_group: принимает номер группы
     :param day_on_semestr: принимает созданный семестр
     :return: возвращяет заполненый предметами пары
     """
@@ -46,21 +47,6 @@ def create_schedule(day_on_semestr):
         ['obj', 17], \
         ['sys_prog', 64], \
         ['python', 77], \
- \
- \
- \
- \
-            # need_object =['Mat_log',52],\
-    #          ['sys_prog',127],\
-    #          ['philosof',48],\
-    #          ['python',153],\
-    #          ['obj',34],\
-    #          ['gavr',76],\
-    #          ['fiz-ra',32],\
-    #          ['angl',32],\
-    #          ['econom',72],\
-    #          ['pravo',76],\
-
 
 
 
@@ -75,8 +61,7 @@ def create_schedule(day_on_semestr):
         prepared_schedule = generate_object_for_day(object, semestr)
 
     # print(prepared_schedule)
-
-    return prepared_schedule
+    return  id_group,prepared_schedule
 
 
 def generate_object_for_day(object, semester):
@@ -127,7 +112,7 @@ def generate_object_for_day(object, semester):
             hours_need -= 1
 
         if hours_need == 0:
-            return hours_need, semester
+            return semester
 
 
 def equals_group(group1, group2):
@@ -135,6 +120,7 @@ def equals_group(group1, group2):
         сравнение расписания на следующей день с новой группой.
         возвращяет True если есть совпадение
     """
+    cheking  = False
     len_group_1 = len(group1[1])
     len_group_2 = len(group2[1])
 
@@ -152,20 +138,19 @@ def equals_group(group1, group2):
                 elif checking_group1 == checking_group2:
                     # print(checking_group1," equally ",checking_group2)
 
-                    group2[1][in_day_couple] = random.sample(group2[1][in_day_couple],len(group2[1][in_day_couple]))
-                    true = True
+                    group2[1][in_day_couple] = random.sample(group2[1][in_day_couple],
+                                                             len(group2[1][in_day_couple]))
+                    cheking = True
 
-                else:
-                    # print(" false ")
-                    true = False
-
+        return cheking
 
 
-def compare_date_with_schedule():
+
+def compare_date_with_schedule(sem_with_obj):
+    print(sem_with_obj)
     """
     метод склеивает расписание с датой
-    и возвращяет результат
-    :return:
+    :return: склееное расписание
     """
     count = 0
     for month in range(1, 7):
@@ -183,27 +168,21 @@ def compare_date_with_schedule():
                 count += 1
 
 
+
 sem = create_semester(129)
 sem2 = create_semester(129)
 
-print(sem)
 
-sem_with_obj = create_schedule(sem)
-sem_with_obj2 = create_schedule(sem2)
+sem_with_obj = create_schedule("32",sem)
+sem_with_obj2 = create_schedule("36",sem2)
 
-equals_group(sem_with_obj, sem_with_obj2)
-print(sem_with_obj)
-print(sem_with_obj2)
-#
-# print(sem_with_obj,'\n',sem_with_obj2,'\n','\n',)
-#
-# for i in range(len(sem_with_obj[1])):
-#     print(sem_with_obj[1][i])
-#
-#
-# calendar_semester = 6
-# compare_date_with_sc
-()
+print(sem_with_obj[0],'\n',sem_with_obj2[0])
+
+i = equals_group(sem_with_obj, sem_with_obj2)
+while i:
+    i = equals_group(sem_with_obj, sem_with_obj2)
+
+# compare_date_with_schedule(sem_with_obj)
 
 
 
