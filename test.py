@@ -115,34 +115,43 @@ def generate_object_for_day(object, semester):
             return semester
 
 
-def equals_group(group1, group2):
+def equals_group(list_group):
     """
         сравнение расписания на следующей день с новой группой.
         возвращяет True если есть совпадение
     """
+
     cheking  = False
-    len_group_1 = len(group1[1])
-    len_group_2 = len(group2[1])
 
-    if len_group_1 == len_group_2:
-        false = 0
-        true = True
+    for i in range(len(list_group)):
 
-        for in_day_couple in range(len_group_1):
-            for in_couple in range(4):
-                checking_group1 = group1[1][in_day_couple][in_couple]
-                checking_group2 = group2[1][in_day_couple][in_couple]
+        for i2 in range(len(list_group)):
+            if i2 == i:
+                continue
+            for in_day_couple in range(129):
+                for in_couple in range(4):
+                    # print("in_couple ",in_couple," in_day_couple ", in_day_couple," i2 ", i2, " i ", i)
+                    if list_group[i][in_day_couple][in_couple] == 0 \
+                            and list_group[i2][in_day_couple][in_couple] == 0:
+                        continue
 
-                if checking_group1 == 0 and checking_group2 == 0:
-                    continue
-                elif checking_group1 == checking_group2:
-                    # print(checking_group1," equally ",checking_group2)
+                    elif list_group[i][in_day_couple][in_couple] \
+                            == list_group[i2][in_day_couple][in_couple]:
+                        # print(list_group[i][in_day_couple][in_couple])
 
-                    group2[1][in_day_couple] = random.sample(group2[1][in_day_couple],
-                                                             len(group2[1][in_day_couple]))
-                    cheking = True
+                        list_group[i][in_day_couple] = random.sample(list_group[i][in_day_couple],len(list_group[i][in_day_couple]))
+                        # print(list_group[i][in_day_couple][in_couple])
 
-        return cheking
+                        cheking = True
+
+
+    return cheking
+
+
+                # group2[1][in_day_couple] = random.sample(group2[1][in_day_couple],
+                #                                          len(group2[1][in_day_couple]))
+                # cheking = True
+
 
 
 
@@ -168,20 +177,29 @@ def compare_date_with_schedule(sem_with_obj):
                 count += 1
 
 
-
+all_group = []
 sem = create_semester(129)
 sem2 = create_semester(129)
-
+sem3 = create_semester(129)
 
 sem_with_obj = create_schedule("32",sem)
 sem_with_obj2 = create_schedule("36",sem2)
+sem_with_obj3 = create_schedule("22",sem3)
 
-print(sem_with_obj[0],'\n',sem_with_obj2[0])
 
-i = equals_group(sem_with_obj, sem_with_obj2)
+all_group.append(sem_with_obj[1])
+all_group.append(sem_with_obj2[1])
+all_group.append(sem_with_obj3[1])
+
+
+
+print(all_group)
+
+i = equals_group(all_group)
 while i:
-    i = equals_group(sem_with_obj, sem_with_obj2)
+    i = equals_group(all_group)
 
+print(all_group)
 # compare_date_with_schedule(sem_with_obj)
 
 
